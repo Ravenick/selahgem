@@ -1,0 +1,6 @@
+{
+  "name": "Selah - Scripture Presentation",
+  "description": "Quick Scripture presentation and display tool for operators and worship teams with live output preview and custom appearance.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

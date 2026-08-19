@@ -1,0 +1,22 @@
+{
+  "name": "workspace",
+  "version": "0.0.0",
+  "license": "MIT",
+  "private": true,
+  "workspaces": [
+    "artifacts/*",
+    "lib/*",
+    "lib/integrations/*",
+    "scripts"
+  ],
+  "scripts": {
+    "dev": "npm run dev --workspace=@workspace/selah-desktop",
+    "build": "npm run build --workspace=@workspace/selah-desktop",
+    "typecheck": "npm run typecheck --workspace=@workspace/selah-desktop",
+    "lint": "npm run typecheck"
+  },
+  "devDependencies": {
+    "prettier": "^3.9.6",
+    "typescript": "~5.9.3"
+  }
+}

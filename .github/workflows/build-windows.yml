@@ -1,0 +1,55 @@
+name: Build SELAH for Windows
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+      - master
+    tags:
+      - "v*"
+
+jobs:
+  build-windows:
+    runs-on: windows-latest
+
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Setup Rust
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: x86_64-pc-windows-msvc
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build SELAH for Windows
+        uses: tauri-apps/tauri-action@v0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          projectPath: artifacts/selah-desktop
+          tauriScript: npx @tauri-apps/cli
+          uploadWorkflowArtifacts: true
+          workflowArtifactNamePattern: SELAH-[platform]-[arch]-[bundle]
+
+      - name: Upload Windows Installer (.exe) Artifact
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: SELAH-Windows-Installer
+          path: |
+            artifacts/selah-desktop/src-tauri/target/release/bundle/nsis/*.exe
+            artifacts/selah-desktop/src-tauri/target/release/selah.exe
+          if-no-files-found: warn

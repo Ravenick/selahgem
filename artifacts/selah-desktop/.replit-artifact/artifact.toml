@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "Selah"
+description = "Selah is an offline-first Bible presentation operator app for the Dunamis Pegi Media Department, with local Scripture search, live preview, and a separate projector output screen."
+version = "1.0.0"
+id = "artifacts/selah-desktop"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 21057
+
+[services.development]
+run = "pnpm --filter @workspace/selah-desktop run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/selah-desktop", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/selah-desktop/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "21057"
+BASE_PATH = "/"
