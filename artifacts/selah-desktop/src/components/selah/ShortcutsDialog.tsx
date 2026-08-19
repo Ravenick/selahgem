@@ -22,7 +22,7 @@ export function ShortcutsDialog({ onClose }: { onClose: () => void }) {
         className="w-full max-w-md rounded-xl border border-border bg-card p-6 shadow-xl"
         onClick={(e) => e.stopPropagation()}
       >
-        <h2 className="font-display text-2xl">Keyboard shortcuts</h2>
+        <h2 className="font-extrabold text-xl font-['Manrope'] text-foreground">SELAH | Keyboard Shortcuts</h2>
         <dl className="mt-4 space-y-2 text-sm">
           {SHORTCUTS.map(([key, desc]) => (
             <div key={key} className="flex items-center justify-between gap-4">

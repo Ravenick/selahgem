@@ -31,7 +31,8 @@ export interface SessionItem {
 }
 
 export const FONTS = [
-  { label: "Inter Tight (Sans)", value: "'Outfit', system-ui, sans-serif" },
+  { label: "Manrope (Modern Sans)", value: "'Manrope', system-ui, sans-serif" },
+  { label: "Outfit (Sans)", value: "'Outfit', system-ui, sans-serif" },
   { label: "Cormorant (Serif)", value: "'Cormorant Garamond', Georgia, serif" },
   { label: "Georgia (System serif)", value: "Georgia, 'Times New Roman', serif" },
   { label: "System UI", value: "system-ui, -apple-system, sans-serif" },

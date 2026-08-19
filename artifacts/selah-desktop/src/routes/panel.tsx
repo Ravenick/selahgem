@@ -1,5 +1,5 @@
 // Operator panel — SEARCH → SELECT → PREVIEW → DISPLAY.
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
   Keyboard,
@@ -14,11 +14,15 @@ import {
   Download,
   Upload,
   X,
+  HelpCircle,
+  Play,
 } from "lucide-react";
 import { VerseCanvas } from "@/components/selah/VerseCanvas";
 import { AppearanceMenu } from "@/components/selah/AppearanceMenu";
 import { ShortcutsDialog } from "@/components/selah/ShortcutsDialog";
 import { DisplaySettingsPanel } from "@/components/selah/DisplaySettingsPanel";
+import { InteractiveGuide } from "@/components/selah/InteractiveGuide";
+import { SelahLogo } from "@/components/selah/SelahLogo";
 import { bible } from "@/lib/bible/registry";
 import type { Verse } from "@/lib/bible/types";
 import { verseId } from "@/lib/bible/types";
@@ -44,7 +48,7 @@ export const Route = createFileRoute("/panel")({
 const btn =
   "rounded-md border border-border px-3 py-2 text-xs font-medium uppercase tracking-[0.12em] transition-colors hover:bg-accent disabled:opacity-40";
 
-function Panel() {
+export function Panel() {
   const [version, setVersion] = useState("kjv");
   const [query, setQuery] = useState("");
   const [results, setResults] = useState<Verse[]>([]);
@@ -58,10 +62,19 @@ function Panel() {
   const [recent, setRecent] = useState<Verse[]>([]);
   const [session, setSession] = useState<SessionItem[]>([]);
   const [showShortcuts, setShowShortcuts] = useState(false);
+  const [showGuide, setShowGuide] = useState(false);
   const [outputOpen, setOutputOpen] = useState(false);
   const [autoDisplay, setAutoDisplay] = useState(true);
   const searchRef = useRef<HTMLInputElement>(null);
   const outputWindow = useRef<Window | null>(null);
+
+  /* ---------- auto-show guide on first startup ---------- */
+  useEffect(() => {
+    const isDismissed = localStorage.getItem("selah:dismiss_tutorial_guide") === "true";
+    if (isDismissed) return;
+    const timer = window.setTimeout(() => setShowGuide(true), 400);
+    return () => window.clearTimeout(timer);
+  }, []);
 
   /* ---------- boot: restore local state and prepare the Bible ---------- */
   useEffect(() => {
@@ -295,22 +308,36 @@ function Panel() {
     <div className="flex h-screen flex-col bg-background text-foreground">
       {/* header */}
       <header className="flex flex-wrap items-center justify-between gap-3 border-b border-border px-4 py-2.5">
-        <div className="flex items-center gap-4">
-          <span className="font-display text-xl tracking-wide">SELAH</span>
+        <div className="flex items-center gap-3.5">
+          <Link to="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity" title="Return to SELAH Canyon Landing Page">
+            <SelahLogo className="h-7 w-7" />
+            <span className="font-extrabold text-xl tracking-wider font-['Manrope'] text-foreground">
+              SELAH <span className="text-primary text-xs font-normal">Studio</span>
+            </span>
+          </Link>
           <div className="flex items-center gap-2 text-xs">
             <span
               className={`rounded px-2 py-1 font-semibold uppercase tracking-[0.14em] ${
                 black ? "bg-foreground/80 text-background" : liveVerse ? "bg-live text-white" : "bg-muted text-muted-foreground"
               }`}
             >
-              {black ? "Black" : liveVerse ? `Live: ${verseId(liveVerse)}` : "Output clear"}
+              {black ? "Black" : liveVerse ? `Live | ${verseId(liveVerse)}` : "Output clear"}
             </span>
             <span className="text-muted-foreground">
-              Next: {preview ? verseId(preview) : nextUp ? verseId(nextUp) : "—"}
+              Next | {preview ? verseId(preview) : nextUp ? verseId(nextUp) : "—"}
             </span>
           </div>
         </div>
         <div className="flex items-center gap-2">
+          <button
+            type="button"
+            className={`${btn} bg-primary/10 border-primary/30 text-primary hover:bg-primary/20 flex items-center`}
+            onClick={() => setShowGuide(true)}
+            title="Interactive Guide & Tutorial"
+          >
+            <HelpCircle className="mr-1 inline h-3.5 w-3.5" />
+            Tutorial Guide
+          </button>
           <button type="button" className={btn} onClick={() => setShowShortcuts(true)}>
             <Keyboard className="mr-1 inline h-3.5 w-3.5" />
             Shortcuts
@@ -571,6 +598,7 @@ function Panel() {
       </main>
 
       {showShortcuts && <ShortcutsDialog onClose={() => setShowShortcuts(false)} />}
+      <InteractiveGuide open={showGuide} onOpenChange={setShowGuide} />
     </div>
   );
 }

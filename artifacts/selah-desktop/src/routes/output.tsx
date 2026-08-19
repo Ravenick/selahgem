@@ -12,9 +12,9 @@ import type { LiveState } from "@/lib/selah/types";
 export const Route = createFileRoute("/output")({
   head: () => ({
     meta: [
-      { title: "Selah — Live output" },
+      { title: "SELAH | Live Output" },
       { name: "description", content: "Fullscreen Scripture output screen for the congregation display." },
-      { property: "og:title", content: "Selah — Live output" },
+      { property: "og:title", content: "SELAH | Live Output" },
       { property: "og:description", content: "Fullscreen Scripture output screen for the congregation display." },
       { name: "robots", content: "noindex" },
     ],

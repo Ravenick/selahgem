@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as OutputRouteImport } from './routes/output'
 import { Route as PanelRouteImport } from './routes/panel'
+import { Route as SelahstudioRouteImport } from './routes/selahstudio'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -28,35 +29,44 @@ const PanelRoute = PanelRouteImport.update({
   path: '/panel',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SelahstudioRoute = SelahstudioRouteImport.update({
+  id: '/selahstudio',
+  path: '/selahstudio',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/output': typeof OutputRoute
   '/panel': typeof PanelRoute
+  '/selahstudio': typeof SelahstudioRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/output': typeof OutputRoute
   '/panel': typeof PanelRoute
+  '/selahstudio': typeof SelahstudioRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/output': typeof OutputRoute
   '/panel': typeof PanelRoute
+  '/selahstudio': typeof SelahstudioRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/output' | '/panel'
+  fullPaths: '/' | '/output' | '/panel' | '/selahstudio'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/output' | '/panel'
-  id: '__root__' | '/' | '/output' | '/panel'
+  to: '/' | '/output' | '/panel' | '/selahstudio'
+  id: '__root__' | '/' | '/output' | '/panel' | '/selahstudio'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   OutputRoute: typeof OutputRoute
   PanelRoute: typeof PanelRoute
+  SelahstudioRoute: typeof SelahstudioRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -82,6 +92,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PanelRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/selahstudio': {
+      id: '/selahstudio'
+      path: '/selahstudio'
+      fullPath: '/selahstudio'
+      preLoaderRoute: typeof SelahstudioRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -89,6 +106,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   OutputRoute: OutputRoute,
   PanelRoute: PanelRoute,
+  SelahstudioRoute: SelahstudioRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

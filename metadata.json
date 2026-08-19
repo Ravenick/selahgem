@@ -1,6 +1,6 @@
 {
-  "name": "Selah - Scripture Presentation",
-  "description": "Quick Scripture presentation and display tool for operators and worship teams with live output preview and custom appearance.",
+  "name": "SELAH Canyon | SELAH Studio",
+  "description": "SELAH Canyon presents SELAH Studio: quick Scripture presentation for church operators and worship teams. Available on Windows desktop and Web.",
   "requestFramePermissions": [],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }
